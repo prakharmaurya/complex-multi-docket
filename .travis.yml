@@ -21,7 +21,7 @@ after_success:
   - docker push 000excel/multi-server
   - docker push 000excel/multi-worker
 
-doploy:
+deploy:
   provider: elasticbeanstalk
   region: us-west-2
   app: complex-multi-docker
