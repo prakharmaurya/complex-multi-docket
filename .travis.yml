@@ -6,4 +6,17 @@ before_install:
   - docker build -t 000excel/vue-test -f "./client/Dockerfile.dev" ./client
 
 scripts:
-  -
+  - docker run 000excel/vue-test npm run test:unit
+
+after_success:
+  - docker build -t 000excel/multi-client ./client
+  - docker build -t 000excel/multi-nginx ./nginx
+  - docker build -t 000excel/multi-server ./server
+  - docker build -t 000excel/multi-worker ./worker
+  # Log in
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Push to docker hub
+  - docker push 000excel/multi-client
+  - docker push 000excel/multi-nginx
+  - docker push 000excel/multi-server
+  - docker push 000excel/multi-worker
